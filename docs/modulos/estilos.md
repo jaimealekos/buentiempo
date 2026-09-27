@@ -25,7 +25,7 @@ Reglas:
 - Responsive por container queries: `@container (max-width: 30rem)` pone la fila de días en desplazamiento horizontal con ancho mínimo por día; por encima, los días se reparten a partes iguales.
 - Movimiento: `:host([data-animado="false"])` y `@media (prefers-reduced-motion: reduce)` dejan las animaciones en su estado final.
 - Anima los elementos de los iconos con las clases que emite `iconos` (`.nube`, `.luz`, `.gota`, `.copo`, `.dab`, `.bruma`, `.rayo`, `.halo`, `.rayos`, `.nucleo`, `.resplandor`) y con las fases por día de `.bt-dia[data-idx="n"]`.
-- Estiliza los `part`: `part="widget"`, `part="lugar"`, `part="campo"`, `part="dias"`, `part="dia"` mediante `::part(...)`.
+- No usa `::part(...)`: dentro del Shadow DOM no aplica. Los `part` los pone `plantilla` en el HTML y los estiliza la web anfitriona.
 - No usa `@import` ni `url(...)` hacia la red. Las fuentes opcionales se activan desde fuera (`fonts/buentiempo-fonts.css`), no aquí.
 
 ## Errores
@@ -41,7 +41,7 @@ Reglas:
 3. Todas las apariciones de `var(--bt-` que no estén en el bloque `:host` llevan valor por defecto (`var(--bt-x, ...)`).
 4. Contiene `@container` y `@media (prefers-reduced-motion: reduce)`.
 5. Contiene `:host([data-tema="light"])`, `:host([data-tema="dark"])` y `:host([data-animado="false"])`.
-6. Contiene `::part(widget)`, `::part(dia)` y `::part(campo)`.
+6. No contiene `::part(`.
 7. Contiene las clases de animación de los iconos: `.bt-icono .nube`, `.bt-icono .gota`, `.bt-icono .bruma`.
 8. El número de `{` es igual al de `}`.
 9. No contiene `@import` ni `http://` ni `https://`.

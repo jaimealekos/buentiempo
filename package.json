@@ -1,0 +1,11 @@
+{
+  "name": "buentiempo",
+  "version": "1.0.0",
+  "description": "Widget de previsión meteorológica embebible: web component <buen-tiempo> con datos de Open-Meteo.",
+  "type": "module",
+  "main": "buentiempo.js",
+  "files": ["buentiempo.js", "src/", "fonts/"],
+  "scripts": { "test": "node --test \"test/*.test.js\"" },
+  "license": "MIT",
+  "author": "Jaime Alekos"
+}

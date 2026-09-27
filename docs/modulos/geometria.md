@@ -79,7 +79,7 @@ Comportamiento:
 1. `escala([{tmax:10,tmin:0},{tmax:20,tmin:10}])` → `{ techo: 21, suelo: -1, recorrido: 22 }`.
 2. `trazadoBanda([{tmax:10,tmin:0},{tmax:20,tmin:10}])` → `viewBox === '0 0 200 126'`, `dMax === 'M50 59 L150 29.91'`, `dMin === 'M50 88.09 L150 59'`, `dArea === 'M50 59 L150 29.91 L150 59 L50 88.09 Z'`.
 3. El caso 2 devuelve `puntos` igual a `[{cx:50, yMax:59, yMin:88.09}, {cx:150, yMax:29.91, yMin:59}]`.
-4. Un solo día `[{tmax:20,tmin:20}]` → `recorrido === 0.1`, `techo === 21`, `suelo === 19` (no se divide por cero).
+4. Un solo día `[{tmax:20,tmin:20}]` → `recorrido === 2`, `techo === 21`, `suelo === 19` (el grado de aire por arriba y por abajo garantiza recorrido >= 2; el `max(0.1, …)` es solo salvaguarda).
 5. `trazadoBanda([])` → `RangeError`; `trazadoBanda(null)` → `RangeError`.
 6. `trazadoHoras(horasConTresLecturas)` con temperaturas `[10, 12, 11]` y `paso: 2` → `viewBox === '0 0 240 126'`, `dLinea === 'M5 80.5 L120 69.5 L235 75'`, `dArea === 'M5 80.5 L120 69.5 L235 75 L235 86 L5 86 Z'`.
 7. El caso 6 devuelve dos marcas: `{pct:2.08, hora:'09', temp:10, yTemp:74.5, lluviaPct:0}` y `{pct:97.92, hora:'11', temp:11, yTemp:69, lluviaPct:0}` (según las horas `09:00`, `10:00`, `11:00`).
