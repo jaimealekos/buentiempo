@@ -76,22 +76,28 @@ function aLugar(resultado) {
 
 /**
  * Busca ciudades por nombre.
+ * Si el aborto se detecta por la causa del error devuelto, el llamador puede
+ * comprobarlo con `e.name === 'AbortError' || e.cause?.name === 'AbortError'`.
  * @param {string} nombre
  * @param {{ lang?: string, pais?: string, limite?: number,
- *           fetchImpl?: typeof fetch }} [opciones]
+ *           signal?: AbortSignal, fetchImpl?: typeof fetch }} [opciones]
  * @returns {Promise<Lugar[]>} [] si no hay resultados.
  */
 export async function geocodificar(nombre, opciones = {}) {
   const lang = opciones.lang ?? 'es';
   const pais = opciones.pais ?? '';
   const limite = opciones.limite ?? 6;
+  const signal = opciones.signal;
   const fetchImpl = opciones.fetchImpl ?? globalThis.fetch;
 
   const url = `${URL_GEOCODIFICACION}?name=${encodeURIComponent(nombre)}&count=${limite}&language=${lang}&format=json`;
 
+  const init = { mode: 'cors' };
+  if (signal !== undefined) init.signal = signal;
+
   let respuesta;
   try {
-    respuesta = await fetchImpl(url, { mode: 'cors' });
+    respuesta = await fetchImpl(url, init);
   } catch (cause) {
     throw new Error('geocodificación: no se pudo consultar Open-Meteo', { cause });
   }
@@ -119,9 +125,11 @@ export async function geocodificar(nombre, opciones = {}) {
 
 /**
  * Pide la previsión y la normaliza.
+ * Si el aborto se detecta por la causa del error devuelto, el llamador puede
+ * comprobarlo con `e.name === 'AbortError' || e.cause?.name === 'AbortError'`.
  * @param {{ lat: number, lon: number, zona?: string, dias?: number,
  *           unidades?: 'metric'|'imperial', lugar?: string, pais?: string,
- *           fetchImpl?: typeof fetch }} opciones
+ *           signal?: AbortSignal, fetchImpl?: typeof fetch }} opciones
  * @returns {Promise<Datos>} forma `Datos`.
  */
 export async function pedirPrevision(opciones) {
@@ -132,6 +140,7 @@ export async function pedirPrevision(opciones) {
   const unidades = opciones.unidades;
   const lugar = opciones.lugar ?? '';
   const pais = opciones.pais ?? '';
+  const signal = opciones.signal;
   const fetchImpl = opciones.fetchImpl ?? globalThis.fetch;
 
   const params = new URLSearchParams();
@@ -150,9 +159,12 @@ export async function pedirPrevision(opciones) {
   }
   const url = `${URL_PREVISION}?${params.toString()}`;
 
+  const init = { mode: 'cors' };
+  if (signal !== undefined) init.signal = signal;
+
   let respuesta;
   try {
-    respuesta = await fetchImpl(url, { mode: 'cors' });
+    respuesta = await fetchImpl(url, init);
   } catch (cause) {
     throw new Error('previsión: no se pudo consultar Open-Meteo', { cause });
   }

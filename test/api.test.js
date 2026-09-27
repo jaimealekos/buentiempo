@@ -185,6 +185,25 @@ test('geocodificar falla si la respuesta HTTP no es ok', async () => {
   );
 });
 
+test('geocodificar pasa el signal y deja el aborto distinguible', async () => {
+  const controlador = new AbortController();
+  const aborto = new Error('abortado');
+  aborto.name = 'AbortError';
+  const fetchImpl = fetchQueFalla(aborto);
+
+  await assert.rejects(
+    () => geocodificar('x', { fetchImpl, signal: controlador.signal }),
+    (error) => {
+      assert.equal(error.message, 'geocodificación: no se pudo consultar Open-Meteo');
+      assert.equal(error.cause?.name, 'AbortError');
+      return true;
+    }
+  );
+
+  assert.equal(fetchImpl.llamadas[0].init.signal, controlador.signal);
+  assert.equal(fetchImpl.llamadas[0].init.mode, 'cors');
+});
+
 // --- pedirPrevision ---------------------------------------------------------
 
 test('pedirPrevision construye la URL con los parámetros por defecto', async () => {
@@ -321,6 +340,25 @@ test('pedirPrevision propaga el fallo de red con cause', async () => {
       return true;
     }
   );
+});
+
+test('pedirPrevision pasa el signal y deja el aborto distinguible', async () => {
+  const controlador = new AbortController();
+  const aborto = new Error('abortado');
+  aborto.name = 'AbortError';
+  const fetchImpl = fetchQueFalla(aborto);
+
+  await assert.rejects(
+    () => pedirPrevision({ lat: 1, lon: 2, fetchImpl, signal: controlador.signal }),
+    (error) => {
+      assert.equal(error.message, 'previsión: no se pudo consultar Open-Meteo');
+      assert.equal(error.cause?.name, 'AbortError');
+      return true;
+    }
+  );
+
+  assert.equal(fetchImpl.llamadas[0].init.signal, controlador.signal);
+  assert.equal(fetchImpl.llamadas[0].init.mode, 'cors');
 });
 
 // --- normalizarPrevision ----------------------------------------------------

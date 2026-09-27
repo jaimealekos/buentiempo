@@ -226,6 +226,12 @@ ${PALETA_CLARA}
 }
 
 .bt-lugar { position: relative; margin: 0; }
+/* Título sin buscador: misma tipografía que el botón, sin aspecto de botón. */
+.bt-lugar-texto {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
 .bt-lugar-boton {
   font: inherit;
   color: inherit;
@@ -389,7 +395,8 @@ ${PALETA_CLARA}
   transition: opacity var(--bt-dur-2, 120ms) var(--bt-ease-soft, cubic-bezier(.2, .7, .2, 1));
 }
 .bt-tiempo:has(.bt-dia:hover) .bt-dia > .bt-lluvia,
-.bt-tiempo:has(.bt-dia:focus-visible) .bt-dia > .bt-lluvia { opacity: 0; }
+.bt-tiempo:has(.bt-dia:focus-visible) .bt-dia > .bt-lluvia,
+.bt-tiempo:has(.bt-horas[data-activo]) .bt-dia > .bt-lluvia { opacity: 0; }
 
 /* Nueva semana: dos tramos de 1.5px que parten la fila en semanas. */
 .bt-dia[data-semana-nueva] { border-inline-start: 0; }
@@ -511,7 +518,8 @@ ${PALETA_CLARA}
 }
 .bt-horas .bt-icono * { animation-play-state: var(--reproduccion, paused); }
 .bt-tiempo:has(.bt-dia:hover) .bt-banda,
-.bt-tiempo:has(.bt-dia:focus-visible) .bt-banda { opacity: 0; }
+.bt-tiempo:has(.bt-dia:focus-visible) .bt-banda,
+.bt-tiempo:has(.bt-horas[data-activo]) .bt-banda { opacity: 0; }
 .bt-tiempo:has(.bt-dia[data-idx="0"]:hover) .bt-horas[data-idx="0"],
 .bt-tiempo:has(.bt-dia[data-idx="0"]:focus-visible) .bt-horas[data-idx="0"],
 .bt-tiempo:has(.bt-dia[data-idx="1"]:hover) .bt-horas[data-idx="1"],
@@ -535,11 +543,11 @@ ${PALETA_CLARA}
   opacity: 1;
   --reproduccion: running;
 }
+/* elemento marca la capa con data-activo en hover, foco y toque táctil. */
+.bt-horas[data-activo] { opacity: 1; --reproduccion: running; }
 
 .bt-horas-linea { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; }
 .bt-horas-linea .bt-area { fill: url(#bt-degradado-oro); opacity: .55; }
-.bt-horas-linea .bt-punto { stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.bt-horas-linea .bt-punto-max { stroke: var(--bt-accent, oklch(.800 .115 82)); }
 .bt-ahora-linea {
   stroke: var(--bt-accent, oklch(.800 .115 82));
   stroke-width: 1;
