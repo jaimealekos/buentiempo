@@ -472,6 +472,7 @@ ${PALETA_CLARA}
   inset-inline: 0;
   inset-block: 0;
   grid-row: 5 / -1;
+  grid-column: 1 / -1;
   inline-size: 100%;
   block-size: 100%;
   pointer-events: none;
@@ -510,6 +511,7 @@ ${PALETA_CLARA}
   inset-inline: 0;
   inset-block: 0;
   grid-row: 5 / -1;
+  grid-column: 1 / -1;
   inline-size: 100%;
   pointer-events: none;
   overflow: visible;

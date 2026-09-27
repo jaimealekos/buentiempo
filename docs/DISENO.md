@@ -1,21 +1,19 @@
 # Diseño gráfico de `<buen-tiempo>`
 
 Widget de previsión meteorológica embebible: **web component con Shadow DOM, sin
-dependencias**. Extraído del panel privado `.origen/` (no publicable, pero es la
-fuente de verdad mientras dure la extracción). Este documento fija valores
+dependencias**. Este documento fija valores
 exactos para que quien implemente no tenga que decidir nada.
 
 > Todo el CSS vive **dentro del Shadow DOM**. Los selectores son relativos a
 > `:host`. Los valores que el usuario puede reescribir desde su web son
 > variables CSS públicas `--bt-*` (sección 3). Los colores del tema oscuro son
-> literalmente los de `inicio.css`; el tema claro es nuevo, con los mismos
-> matices.
+> los de la estética original; el tema claro es nuevo, con los mismos matices.
 
 ---
 
 ## 1. Tema oscuro (estética original, sin cambios)
 
-Extraído de `inicio.css`. Es la referencia: cualquier desviación visual respecto
+Es la referencia: cualquier desviación visual respecto
 a esto es un fallo, no una mejora.
 
 | Papel | Valor original | Hex de referencia (sRGB) |
@@ -89,12 +87,12 @@ Elementos que **hay que reproducir tal cual** en oscuro:
 - **Gotas de lluvia**: icono `#i-gota` (sprite de interfaz) a 10 px,
   `stroke: currentColor`, `stroke-width 1.25`, + porcentaje en mono
   `--bt-text-3`, con `min-block-size: 1.375rem`.
-- **Brillo superior** (`.panel.principal::before`): línea de 1 px en el borde
+- **Brillo superior** (`::before` del widget): línea de 1 px en el borde
   superior con degradado que barre de 50 % a 85 % al pasar el ratón, 900 ms
   `--bt-ease-out`.
 
 Todo el detalle de iconos "Sorolla", sus cuerpos SVG y el mapa WMO→icono están
-en `.origen/iconos.php`; el widget los inlinea (no `<use>`, porque las
+en `src/iconos.js`; el widget los inlinea (no `<use>`, porque las
 animaciones CSS no cruzan el árbol en sombra) y colorea los degradados desde el
 CSS. Rejilla 32x32 dibujada a 44 px, luz siempre desde arriba-izquierda.
 
@@ -195,8 +193,8 @@ la tabla de la sección 1.
 
 **Activar Fraunces/Geist/Geist Mono.** El widget por defecto usa la pila del
 sistema (nunca pide fuentes a la red). Se activan de dos formas equivalentes:
-cargando `fonts/buentiempo-fonts.css` (declara los `@font-face` de
-`.origen/inicio.css` líneas 12-17 con `font-display: swap`, servidos en local)
+cargando `fonts/buentiempo-fonts.css` (declara los `@font-face` con
+`font-display: swap`, servidos en local)
 o declarando los `@font-face` en la web anfitriona. En ambos casos hay que
 sobrescribir las tres variables:
 

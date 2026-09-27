@@ -410,6 +410,7 @@ export class BuenTiempo extends HTMLElement {
       clearTimeout(b.temporizador);
       if (texto.length < MIN_CARACTERES) {
         this._cerrarLista();
+        b.ultimaConsulta = '';
         return;
       }
       if (texto === b.ultimaConsulta) {
@@ -510,6 +511,8 @@ export class BuenTiempo extends HTMLElement {
     if (!b) {
       return;
     }
+    b.enviando = false;
+    b.campo.value = b.original;
     b.campo.hidden = true;
     b.boton.hidden = false;
   }

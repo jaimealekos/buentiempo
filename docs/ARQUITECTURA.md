@@ -15,14 +15,14 @@ No hace: no tiene servidor ni backend, no guarda histórico, no consulta más fu
 | `iconos` | Devuelve el SVG en línea del icono que corresponde a un código WMO, con sus degradados compartidos. | normal | — | docs/modulos/iconos.md |
 | `estilos` | Devuelve, como texto, el CSS que se inyecta en el Shadow DOM. | trivial | — | docs/modulos/estilos.md |
 | `plantilla` | Compone, con funciones puras, el HTML interno del widget a partir de los datos, la configuración y el idioma. | normal | i18n, iconos, geometria | docs/modulos/plantilla.md |
-| `elemento` | Es el custom element: ciclo de vida, atributos y propiedades, carga de datos, refresco, buscador de ciudad, eventos y `localStorage`. | normal | config, api, plantilla, estilos | docs/modulos/elemento.md |
+| `elemento` | Es el custom element: ciclo de vida, atributos y propiedades, carga de datos, refresco, buscador de ciudad, eventos y `localStorage`. | normal | config, i18n, api, plantilla, estilos | docs/modulos/elemento.md |
 
 Niveles: trivial = pegamento, configuración, funciones puras pequeñas con pruebas claras; normal = lógica, entrada/salida o interfaz de usuario; complejo = algoritmia o dominio difícil (ningún módulo llega a este nivel).
 
 ## Orden de implementación
 1. Sin dependencias internas, en cualquier orden entre ellos: `config`, `i18n`, `api`, `geometria`, `iconos`, `estilos`.
 2. `plantilla` (necesita `i18n`, `iconos` y `geometria`).
-3. `elemento` (necesita `config`, `api`, `plantilla` y `estilos`).
+3. `elemento` (necesita `config`, `i18n`, `api`, `plantilla` y `estilos`).
 4. Punto de entrada `buentiempo.js` y piezas de integración (`demo/index.html`, `README.md`).
 Sin dependencias circulares: el grafo es un árbol con raíz en `elemento`.
 
@@ -64,7 +64,7 @@ Tematización externa: variables CSS `--bt-*` documentadas por `docs/DISENO.md` 
 - `LICENSE`: MIT.
 - `CHANGELOG.md`: formato Keep a Changelog; la 1.0.0 es la primera entrada.
 - `fonts/`: Fraunces y Geist (OFL), con su licencia. Por defecto el widget usa la pila del sistema; se activan cargando `fonts/buentiempo-fonts.css` o definiendo la variable CSS que indica `docs/DISENO.md`.
-- `package.json`: `"type": "module"`, `"version": "1.0.0"`, `"scripts": { "test": "node --test test/" }`. Sin dependencias.
+- `package.json`: `"type": "module"`, `"version": "1.0.0"`, `"scripts": { "test": "node --test \"test/*.test.js\"" }`. Sin dependencias.
 - `.gitignore`: ignora `node_modules/`, `*.log` y cualquier material de origen privado.
 
 ## Decisiones de diseño

@@ -43,10 +43,10 @@ El módulo **no fija colores**: los trazos llevan `var(--bt-<token>)` y los degr
 
 ## Mapa código WMO → icono
 ```
-codigo <= 1                               → 'sol'
+0 <= codigo <= 1                          → 'sol'
 codigo === 2                              → 'sol-nubes'
 codigo === 3                              → 'nublado'
-codigo ∈ {13,17,27,29} o codigo >= 91     → 'tormenta'
+codigo ∈ {13,17,27,29} o 91 <= codigo <= 99 → 'tormenta'
 codigo ∈ 10..12, 28 o 40..49              → 'niebla'
 codigo === 20 o 50..59                    → 'llovizna'
 codigo ∈ {21,24,25} o 60..69              → 'lluvia'

@@ -101,7 +101,7 @@ Todos son `CustomEvent` con `bubbles: true` y `composed: true`:
 - Los textos de error que ve el visitante salen de `i18n`; los de `api` (técnicos) van al `detail` de `bt-error` y a la consola, y en pantalla se pinta `t(lang,'errorGenerico')`.
 
 ## Dependencias
-- Internas: `config` (`leerConfig`, `CLAVES`), `api` (`geocodificar`, `pedirPrevision`), `plantilla` (`pintar`, `pintarMensaje`), `estilos` (`css`).
+- Internas: `config` (`leerConfig`, `CLAVES`), `i18n` (`t`), `api` (`geocodificar`, `pedirPrevision`), `plantilla` (`pintar`, `pintarMensaje`), `estilos` (`css`).
 - Externas: ninguna.
 
 ## Criterio de aceptación (manual, en `demo/index.html`)

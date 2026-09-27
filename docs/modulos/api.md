@@ -27,7 +27,7 @@ export const URL_GEOCODIFICACION = 'https://geocoding-api.open-meteo.com/v1/sear
  * Busca ciudades por nombre.
  * @param {string} nombre
  * @param {{ lang?: string, pais?: string, limite?: number,
- *           fetchImpl?: typeof fetch }} [opciones]
+ *           signal?: AbortSignal, fetchImpl?: typeof fetch }} [opciones]
  * @returns {Promise<Lugar[]>} [] si no hay resultados.
  */
 export async function geocodificar(nombre, opciones) {}
@@ -36,7 +36,7 @@ export async function geocodificar(nombre, opciones) {}
  * Pide la previsión y la normaliza.
  * @param {{ lat: number, lon: number, zona?: string, dias?: number,
  *           unidades?: 'metric'|'imperial',
- *           fetchImpl?: typeof fetch }} opciones
+ *           signal?: AbortSignal, fetchImpl?: typeof fetch }} opciones
  * @returns {Promise<Datos>}
  */
 export async function pedirPrevision(opciones) {}
@@ -89,6 +89,7 @@ export function normalizarPrevision(crudo, meta) {}
 ```
 
 Comportamiento:
+- `signal` (opcional) se pasa tal cual a `fetch` en las dos funciones; una petición abortada rechaza con el error de «no se pudo consultar» y la causa `AbortError` en `cause`.
 - `geocodificar`: construye `URL_GEOCODIFICACION?name=<encodeURIComponent(nombre)>&count=<limite ?? 6>&language=<lang ?? 'es'>&format=json`, y hace `fetchImpl(url, { mode: 'cors' })`. Espera `{ results?: [...] }`; convierte cada resultado en `Lugar` con `name`, `admin1`, `country`, `latitude`, `longitude`, `timezone`, y descarta resultados sin `name` o con `latitude`/`longitude` no finitos. Sin `results` devuelve `[]`. Si `pais` no está vacío, mueve al principio los lugares cuyo `pais` coincide (comparación sin acentos ni mayúsculas, por inclusión) manteniendo el orden relativo del resto.
 - `pedirPrevision`: construye la URL con `latitude`, `longitude`, `timezone=<zona && zona !== 'auto' ? zona : 'auto'>`, `forecast_days=<dias ?? 7>`, `timeformat=iso8601`, y los campos `current`, `daily` y `hourly` listados arriba (los que fija la forma `Datos`). Si `unidades === 'imperial'` añade `temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`; con `'metric'` no añade nada. Tras validar, llama a `normalizarPrevision` con `{ zona, lugar, pais }` (los dos últimos, `''` si no vienen).
 - `normalizarPrevision`: usa un ayudante `en(lista, i, defecto)` que devuelve `lista[i]` solo si `lista` es un array, `i` está en rango y el valor no es `null`/`undefined`; en cualquier otro caso, el defecto. Nunca lanza.
