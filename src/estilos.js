@@ -120,7 +120,7 @@ const CSS = `:host {
   --bt-chart-h: 126px;
   --bt-drop: 10px;
   --bt-pad: var(--bt-space-4) var(--bt-space-5);
-  --bt-max-w: 40rem;
+  --bt-max-w: none;
 
   /* Movimiento */
   --bt-ease-soft: cubic-bezier(.2, .7, .2, 1);
@@ -148,6 +148,7 @@ const CSS = `:host {
 
   /* El propio host */
   display: block;
+  inline-size: 100%;
   max-inline-size: var(--bt-max-w);
   container-type: inline-size;
   color-scheme: dark;
@@ -209,6 +210,7 @@ ${PALETA_CLARA}
 .bt-cabecera {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--bt-space-4, 1rem);
   padding-block-end: var(--bt-space-3, .75rem);
@@ -217,6 +219,10 @@ ${PALETA_CLARA}
 }
 
 .bt-titulo {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--bt-space-2, .5rem);
   margin: 0;
   font-family: var(--bt-font-display, ui-serif, Georgia, "Times New Roman", serif);
   font-size: var(--bt-fs-title, 1.375rem);
@@ -318,7 +324,6 @@ ${PALETA_CLARA}
   font-family: var(--bt-font-mono, ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace);
   font-size: var(--bt-fs-data, .75rem);
   color: var(--bt-text-3, oklch(.620 .014 85));
-  margin-inline-start: var(--bt-space-2, .5rem);
   white-space: nowrap;
 }
 
@@ -335,13 +340,14 @@ ${PALETA_CLARA}
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: var(--bt-space-3, .75rem);
+  gap: var(--bt-space-2, .5rem);
   margin: 0 0 var(--bt-space-4, 1rem);
   font-family: var(--bt-font-mono, ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace);
   font-size: var(--bt-fs-body, .8125rem);
   color: var(--bt-text-2, oklch(.720 .014 85));
   font-variant-numeric: tabular-nums;
 }
+.bt-ahora > * { white-space: nowrap; }
 .bt-temp-ahora {
   font-family: var(--bt-font-display, ui-serif, Georgia, "Times New Roman", serif);
   font-size: var(--bt-fs-now, 2rem);
@@ -355,11 +361,10 @@ ${PALETA_CLARA}
 .bt-tiempo {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(var(--bt-dias, 7), minmax(0, var(--bt-day-w, 5.5rem)));
+  grid-template-columns: repeat(var(--bt-dias, 7), minmax(0, 1fr));
   grid-template-rows: auto auto auto auto 5.5rem auto;
   row-gap: var(--bt-space-2, .5rem);
-  inline-size: min(100%, calc(var(--bt-dias, 7) * var(--bt-day-w, 5.5rem)));
-  margin-inline: auto;
+  inline-size: 100%;
 }
 
 .bt-dia {
@@ -394,8 +399,6 @@ ${PALETA_CLARA}
   grid-row: 6;
   transition: opacity var(--bt-dur-2, 120ms) var(--bt-ease-soft, cubic-bezier(.2, .7, .2, 1));
 }
-.bt-tiempo:has(.bt-dia:hover) .bt-dia > .bt-lluvia,
-.bt-tiempo:has(.bt-dia:focus-visible) .bt-dia > .bt-lluvia,
 .bt-tiempo:has(.bt-horas[data-activo]) .bt-dia > .bt-lluvia { opacity: 0; }
 
 /* Nueva semana: dos tramos de 1.5px que parten la fila en semanas. */
@@ -517,32 +520,7 @@ ${PALETA_CLARA}
   --reproduccion: paused;
 }
 .bt-horas .bt-icono * { animation-play-state: var(--reproduccion, paused); }
-.bt-tiempo:has(.bt-dia:hover) .bt-banda,
-.bt-tiempo:has(.bt-dia:focus-visible) .bt-banda,
 .bt-tiempo:has(.bt-horas[data-activo]) .bt-banda { opacity: 0; }
-.bt-tiempo:has(.bt-dia[data-idx="0"]:hover) .bt-horas[data-idx="0"],
-.bt-tiempo:has(.bt-dia[data-idx="0"]:focus-visible) .bt-horas[data-idx="0"],
-.bt-tiempo:has(.bt-dia[data-idx="1"]:hover) .bt-horas[data-idx="1"],
-.bt-tiempo:has(.bt-dia[data-idx="1"]:focus-visible) .bt-horas[data-idx="1"],
-.bt-tiempo:has(.bt-dia[data-idx="2"]:hover) .bt-horas[data-idx="2"],
-.bt-tiempo:has(.bt-dia[data-idx="2"]:focus-visible) .bt-horas[data-idx="2"],
-.bt-tiempo:has(.bt-dia[data-idx="3"]:hover) .bt-horas[data-idx="3"],
-.bt-tiempo:has(.bt-dia[data-idx="3"]:focus-visible) .bt-horas[data-idx="3"],
-.bt-tiempo:has(.bt-dia[data-idx="4"]:hover) .bt-horas[data-idx="4"],
-.bt-tiempo:has(.bt-dia[data-idx="4"]:focus-visible) .bt-horas[data-idx="4"],
-.bt-tiempo:has(.bt-dia[data-idx="5"]:hover) .bt-horas[data-idx="5"],
-.bt-tiempo:has(.bt-dia[data-idx="5"]:focus-visible) .bt-horas[data-idx="5"],
-.bt-tiempo:has(.bt-dia[data-idx="6"]:hover) .bt-horas[data-idx="6"],
-.bt-tiempo:has(.bt-dia[data-idx="6"]:focus-visible) .bt-horas[data-idx="6"],
-.bt-tiempo:has(.bt-dia[data-idx="7"]:hover) .bt-horas[data-idx="7"],
-.bt-tiempo:has(.bt-dia[data-idx="7"]:focus-visible) .bt-horas[data-idx="7"],
-.bt-tiempo:has(.bt-dia[data-idx="8"]:hover) .bt-horas[data-idx="8"],
-.bt-tiempo:has(.bt-dia[data-idx="8"]:focus-visible) .bt-horas[data-idx="8"],
-.bt-tiempo:has(.bt-dia[data-idx="9"]:hover) .bt-horas[data-idx="9"],
-.bt-tiempo:has(.bt-dia[data-idx="9"]:focus-visible) .bt-horas[data-idx="9"] {
-  opacity: 1;
-  --reproduccion: running;
-}
 /* elemento marca la capa con data-activo en hover, foco y toque táctil. */
 .bt-horas[data-activo] { opacity: 1; --reproduccion: running; }
 
@@ -748,7 +726,7 @@ ${PALETA_CLARA}
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--bt-space-3, .75rem);
-    grid-template-columns: repeat(var(--bt-dias, 7), minmax(var(--bt-day-min, 4.25rem), var(--bt-day-w, 5.5rem)));
+    grid-template-columns: repeat(var(--bt-dias, 7), minmax(var(--bt-day-min, 4.25rem), 1fr));
     inline-size: 100%;
   }
   .bt-dia { scroll-snap-align: center; }

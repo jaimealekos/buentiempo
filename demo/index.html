@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>buentiempo — demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #eef0f2;
+      color: #222;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    h1 { font-size: 1.25rem; font-weight: 500; }
+    h2 { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: #666; margin: 2rem 0 .5rem; }
+    .rejilla { display: grid; gap: 2rem; }
+    .estrecho { inline-size: 360px; max-inline-size: 100%; }
+    #registro {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .75rem;
+      white-space: pre-wrap;
+      max-height: 12rem;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>buentiempo — demo manual</h1>
+
+  <h2>Oscuro (por defecto)</h2>
+  <div class="rejilla">
+    <buen-tiempo place="Valencia" theme="dark"></buen-tiempo>
+  </div>
+
+  <h2>Claro</h2>
+  <div class="rejilla">
+    <buen-tiempo place="Valencia" theme="light"></buen-tiempo>
+  </div>
+
+  <h2>Inglés / imperial</h2>
+  <div class="rejilla">
+    <buen-tiempo place="London" lang="en" units="imperial"></buen-tiempo>
+  </div>
+
+  <h2>Compacto: sin buscador ni condiciones actuales</h2>
+  <div class="rejilla">
+    <buen-tiempo latitude="39.47" longitude="-0.37" editable="false" show-current="false" days="5"></buen-tiempo>
+  </div>
+
+  <h2>Con memoria de la ciudad elegida</h2>
+  <div class="rejilla">
+    <buen-tiempo place="Valencia" remember></buen-tiempo>
+  </div>
+
+  <h2>Catorce días</h2>
+  <div class="rejilla">
+    <buen-tiempo place="Valencia" days="14"></buen-tiempo>
+  </div>
+
+  <h2>Columna estrecha (360px): desplazamiento horizontal</h2>
+  <div class="rejilla">
+    <div class="estrecho">
+      <buen-tiempo place="Valencia" days="7"></buen-tiempo>
+    </div>
+  </div>
+
+  <div id="registro">Eventos:</div>
+
+  <script type="module" src="../buentiempo.js"></script>
+  <script>
+    const registro = document.getElementById('registro');
+    const anotar = (nombre) => (ev) => {
+      registro.textContent += `\n${nombre}: ${JSON.stringify(ev.detail)}`;
+    };
+    for (const el of document.querySelectorAll('buen-tiempo')) {
+      el.addEventListener('bt-load', anotar('bt-load'));
+      el.addEventListener('bt-error', anotar('bt-error'));
+      el.addEventListener('bt-place-change', anotar('bt-place-change'));
+    }
+  </script>
+</body>
+</html>
